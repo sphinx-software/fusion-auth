@@ -1,0 +1,14 @@
+{
+  "name": "@sphinx-software/fusion-auth",
+  "version": "0.0.1",
+  "description": "session authentication package for Sphinx Software",
+  "main": "authenticator.provider.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "NgocTV <tongoc92@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "verror": "^1.10.0"
+  }
+}
