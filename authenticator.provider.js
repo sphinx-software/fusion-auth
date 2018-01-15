@@ -4,13 +4,16 @@ const CredentialBuilder    = require('./credential.builder');
 const Credential           = require('./credential');
 
 module.exports.register = async (container) => {
-    const config = await container.make('config');
-
+    
     container.singleton('auth', async () => {
+        const config = await container.make('config');
+        
         return new Auth(config.auth.session.credentialKey);
     });
 
     container.singleton('auth.credential-provider', async () => {
+        const config = await container.make('config');
+        
         return new CredentialProvider(
             await container.make('database'),
             await container.make('hash'),
