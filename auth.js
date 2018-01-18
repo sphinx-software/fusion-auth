@@ -2,11 +2,11 @@ class Auth {
 
     /**
      *
-     * @param sessionAuthKey
+     * @param {string} sessionAuthKey
      */
     constructor(sessionAuthKey) {
         this.sessionAuthKey = sessionAuthKey;
-        this.session = null;
+        this.session        = null;
     }
 
     /**
@@ -31,10 +31,12 @@ class Auth {
     }
 
     /**
-     * clear session
+     * logout
+     * @return {Auth}
      */
     logout() {
-        this.session.unset(this.sessionAuthKey)
+        this.session.unset(this.sessionAuthKey);
+        return this;
     }
 
     /**
@@ -47,6 +49,7 @@ class Auth {
 
     /**
      * check user is logged
+     * @return {boolean}
      */
     loggedIn() {
         return this.session.has(this.sessionAuthKey);
@@ -54,6 +57,7 @@ class Auth {
 
     /**
      * get back credential from session
+     * @return {Credential}
      */
     getCredential() {
         return this.session.get(this.sessionAuthKey);
