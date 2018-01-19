@@ -1,4 +1,4 @@
-const VError     = require('verror');
+const VError = require('verror');
 
 class DatabaseCredentialProvider {
 
@@ -7,13 +7,13 @@ class DatabaseCredentialProvider {
      * @param database
      * @param hash
      * @param config
-     * @param credentialBuilder
+     * @param builder
      */
-    constructor(database, hash, config, credentialBuilder) {
+    constructor(database, hash, config, builder) {
         this.hash     = hash;
         this.database = database;
         this.config   = config;
-        this.credentialBuilder = credentialBuilder;
+        this.builder  = builder;
     }
 
     /**
@@ -23,21 +23,21 @@ class DatabaseCredentialProvider {
      * @return {Promise<Credential>}
      */
     async provide(username, password) {
-        const identityField   = this.config.session.identityField;
+        const identityField = this.config.session.identityField;
         const passwordField = this.config.session.passwordField;
 
+        // get credential via username
         const raw = (await this.database.table(this.config.session.credentialTable)
             .where({[identityField]: username}).limit(1))[0]
         ;
 
-        // check password
+        // if credential exists check the password is valid
         if ( ! raw || ! await this.hash.check(password, raw[passwordField])) {
             throw new VError('E_AUTH: Invalid username or password');
         }
 
-        return this.credentialBuilder.build(raw)
+        return this.builder.build(raw)
     }
-
 }
 
 module.exports = DatabaseCredentialProvider;
